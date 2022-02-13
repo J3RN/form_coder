@@ -9,4 +9,4 @@ repository = { type = "github", user = "J3RN", repo = "form_coder" }
 gleam_stdlib = "~> 0.18"
 
 [dev-dependencies]
-gleeunit = "~> 0.5"
+gleeunit = "~> 0.6"
