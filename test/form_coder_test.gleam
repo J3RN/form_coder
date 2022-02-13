@@ -29,11 +29,11 @@ pub fn encode_maps_test() {
   let data = [
     #(
       "person",
-      QMap(map.from_list([#("name", QStr("Joe")), #("age", QStr("71"))])),
+      QMap(map.from_list([#("age", QStr("71")), #("name", QStr("Joe"))])),
     ),
     #(
       "cat",
-      QMap(map.from_list([#("name", QStr("Nubi")), #("age", QStr("5"))])),
+      QMap(map.from_list([#("age", QStr("5")), #("name", QStr("Nubi"))])),
     ),
   ]
 
@@ -45,7 +45,7 @@ pub fn encode_mixed_nonsense_test() {
   let data = [
     #(
       "person",
-      QMap(map.from_list([#("name", QStr("Joe")), #("age", QStr("71"))])),
+      QMap(map.from_list([#("age", QStr("71")), #("name", QStr("Joe"))])),
     ),
     #("user_ids", QList([QStr("1"), QStr("2")])),
     #("foo", QStr("bar")),
@@ -70,8 +70,8 @@ pub fn encode_nested_nonsense_test() {
     #(
       "people",
       QMap(map.from_list([
-        #("names", QList([QStr("Joe"), QStr("Robert"), QStr("Mike")])),
         #("count", QStr("3")),
+        #("names", QList([QStr("Joe"), QStr("Robert"), QStr("Mike")])),
       ])),
     ),
   ]
