@@ -27,13 +27,11 @@ pub type Query {
 ///    "foo[bar]=baz"
 ///
 pub fn encode(contents: List(#(String, Query))) -> String {
-  list.flat_map(
-    contents,
-    fn(pair) {
-      let #(key, value) = pair
-      encode_query(key, value)
-    },
-  )
+  contents
+  |> list.flat_map(fn(pair) {
+    let #(key, value) = pair
+    encode_query(key, value)
+  })
   |> string.join(with: "&")
 }
 
