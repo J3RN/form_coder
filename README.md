@@ -65,10 +65,6 @@ gleam shell # Run an Erlang shell
 
 ## Installation
 
-**Coming Soon™**
-
-If available on Hex this package can be added to your Gleam project.
-
 ```sh
 gleam add form_coder
 ```
