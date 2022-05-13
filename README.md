@@ -35,15 +35,13 @@ Rails and Plug. Namely:
 Well, in the type specification, the argument must take the form
 `List(#(String, _))`, where I can choose what to replace `_` with. Choosing
 any one of `String`, `List`, or `Map` would make using the other two very
-inconvenient. Using some type variable `a` is a little better, but it would
-enforce that all "values" have the same type (i.e. you can't have some values as
-strings and others as lists) and `form_coder` would have to know how to encode
-your arbitrary `a` and that doesn't seem possible.
+inconvenient. Using some type variable `a` is would enforce that all "values"
+have the same type (i.e. you can't have some values as strings and others as
+lists) and `form_coder` would have to know how to encode your arbitrary `a` and
+that doesn't seem possible.
 
-What I did instead was to create a sort of union type of `String`, `List`, and
-`Map` named `Query`. Since Gleam doesn't actually have union types, I created an
-algebraic type with variants to wrap each supported type; hence `QStr`, `QList`,
-and `QMap`.
+Since Gleam doesn't have union types, I created an algebraic type with variants
+to wrap each supported type; hence `QStr`, `QList`, and `QMap`.
 
 ### Decoding
 
