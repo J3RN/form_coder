@@ -6,7 +6,7 @@ description = "A Gleam library for encoding and decoding `x-www-form-urlencoded`
 repository = { type = "github", user = "J3RN", repo = "form_coder" }
 
 [dependencies]
-gleam_stdlib = "~> 0.18"
+gleam_stdlib = "~> 0.26"
 
 [dev-dependencies]
-gleeunit = "~> 0.6"
+gleeunit = "~> 0.10"
