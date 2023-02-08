@@ -11,7 +11,6 @@ import gleam/uri
 import gleam/result
 import gleam/string
 import gleam/string_builder
-import gleam/option
 
 pub type Query {
   QStr(String)
@@ -57,24 +56,15 @@ pub fn encode(contents: List(#(String, Query))) -> String {
 
 fn encode_query(key, query) {
   case query {
-    QStr(str) -> encode_string(key, str, option.None)
+    QStr(str) -> encode_string(key, str)
     QList(values) -> encode_list(key, values)
     QMap(pairs) -> encode_map(key, pairs)
   }
 }
 
-fn encode_string(key, str, collection_key: option.Option(String)) {
+fn encode_string(key, str) {
   let key = string_builder.from_string(key)
   let str = string_builder.from_string(str)
-
-  let key = case collection_key {
-    option.Some(collection_key) ->
-      key
-      |> string_builder.append("[")
-      |> string_builder.append(collection_key)
-      |> string_builder.append("]")
-    option.None -> key
-  }
 
   [
     encode_term(key)
