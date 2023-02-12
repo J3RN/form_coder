@@ -15,7 +15,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: "23.2"
-          gleam-version: "0.19.0"
+          gleam-version: "0.26"
       - run: gleam format --check src test
   test:
     runs-on: ubuntu-latest
@@ -24,7 +24,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: "23.2"
-          gleam-version: "0.19.0"
+          gleam-version: "0.26"
       - uses: actions/setup-node@v3
         with:
           node-version: "lts/gallium"
