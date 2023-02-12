@@ -17,7 +17,7 @@ jobs:
           otp-version: "25.x"
           gleam-version: "0.26"
       - run: gleam format --check src test
-  test:
+  test-erlang:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -34,4 +34,21 @@ jobs:
           node-version: "lts/gallium"
       - run: gleam deps download
       - run: gleam test --target erlang
+
+  test-javascript:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['lts/gallium', 'lts/hydrogen']
+        gleam: ['0.24.0', '0.25.3', '0.26.2']
+    steps:
+      - uses: actions/checkout@v3
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: false
+          gleam-version: ${{matrix.gleam}}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.node}}
+      - run: gleam deps download
       - run: gleam test --target javascript
