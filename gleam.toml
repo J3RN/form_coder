@@ -1,12 +1,12 @@
 name = "form_coder"
-version = "0.1.0"
+version = "0.2.0"
 
 licences = ["Apache-2.0"]
 description = "A Gleam library for encoding and decoding `x-www-form-urlencoded` data"
 repository = { type = "github", user = "J3RN", repo = "form_coder" }
 
 [dependencies]
-gleam_stdlib = "~> 0.18"
+gleam_stdlib = "~> 0.26"
 
 [dev-dependencies]
-gleeunit = "~> 0.6"
+gleeunit = "~> 0.10"
