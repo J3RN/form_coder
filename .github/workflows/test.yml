@@ -40,7 +40,7 @@ jobs:
     strategy:
       matrix:
         node: ['lts/gallium', 'lts/hydrogen']
-        gleam: ['0.24.0', '0.25.3', '0.26.2']
+        gleam: ['0.25.3', '0.26.2']
     steps:
       - uses: actions/checkout@v3
       - uses: erlef/setup-beam@v1
