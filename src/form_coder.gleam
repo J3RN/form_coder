@@ -6,7 +6,7 @@
 
 import gleam/dynamic
 import gleam/list
-import gleam/map.{Map}
+import gleam/dict.{type Dict}
 import gleam/uri
 import gleam/result
 import gleam/string
@@ -15,7 +15,7 @@ import gleam/string_builder
 pub type Query {
   QStr(String)
   QList(List(Query))
-  QMap(Map(String, Query))
+  QMap(Dict(String, Query))
 }
 
 /// Characters not encoded by Gleam's percent encoding, but that we need to encode
@@ -79,7 +79,7 @@ fn encode_list(key, values) {
 
 fn encode_map(key, pairs) {
   pairs
-  |> map.to_list()
+  |> dict.to_list()
   |> list.flat_map(fn(pair) {
     let #(subkey, value) = pair
     encode_query(string.concat([key, "[", subkey, "]"]), value)
@@ -89,20 +89,18 @@ fn encode_map(key, pairs) {
 fn encode_term(term: string_builder.StringBuilder) {
   term
   |> string_builder.split(" ")
-  |> list.map(fn(part) {
-    let encoded = uri.percent_encode(string_builder.to_string(part))
-
-    list.fold(
-      not_encoded_by_gleam,
-      encoded,
-      fn(acc, item) {
-        let #(char, replacement) = item
-        string.replace(acc, char, replacement)
-      },
-    )
-    |> string_builder.from_string()
-  })
+  |> list.map(encode_part)
   |> string_builder.join("+")
+}
+
+fn encode_part(part) {
+  let encoded = uri.percent_encode(string_builder.to_string(part))
+
+  list.fold(not_encoded_by_gleam, encoded, fn(encoded, encoding) {
+    let #(char, replacement) = encoding
+    string.replace(encoded, char, replacement)
+  })
+  |> string_builder.from_string()
 }
 
 pub type DecodeError {
@@ -124,28 +122,25 @@ pub fn decode(
 }
 
 fn decode_next(acc, pair) {
-  result.then(
-    acc,
-    fn(acc) {
-      decode_pair(pair)
-      |> result.map(fn(newpair) { [newpair, ..acc] })
-    },
-  )
+  use acc <- result.try(acc)
+  use newpair <- result.try(decode_pair(pair))
+
+  Ok([newpair, ..acc])
 }
 
 fn decode_pair(pair) {
-  try #(key, value) = string.split_once(pair, "=")
-  try key = uri.percent_decode(key)
-  try value = uri.percent_decode(value)
+  use #(key, value) <- result.try(string.split_once(pair, "="))
+  use key <- result.try(uri.percent_decode(key))
+  use value <- result.try(uri.percent_decode(value))
 
   let key = string.replace(key, "+", " ")
   let value = string.replace(value, "+", " ")
   Ok(#(key, value))
 }
 
-fn undynamicize(list, decoder) {
+fn undynamicize(list: List(a), decoder: dynamic.Decoder(b)) {
   list
   |> dynamic.from()
   |> decoder()
-  |> result.map_error(fn(decode_errors) { DynamicError(decode_errors) })
+  |> result.map_error(DynamicError)
 }

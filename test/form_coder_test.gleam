@@ -1,6 +1,6 @@
 import gleeunit
 import gleeunit/should
-import gleam/map
+import gleam/dict
 import gleam/dynamic
 import form_coder.{QList, QMap, QStr}
 
@@ -31,11 +31,11 @@ pub fn encode_maps_test() {
   let data = [
     #(
       "person",
-      QMap(map.from_list([#("age", QStr("71")), #("name", QStr("Joe"))])),
+      QMap(dict.from_list([#("age", QStr("71")), #("name", QStr("Joe"))])),
     ),
     #(
       "cat",
-      QMap(map.from_list([#("age", QStr("5")), #("name", QStr("Nubi"))])),
+      QMap(dict.from_list([#("age", QStr("5")), #("name", QStr("Nubi"))])),
     ),
   ]
 
@@ -49,7 +49,7 @@ pub fn encode_mixed_nonsense_test() {
   let data = [
     #(
       "person",
-      QMap(map.from_list([#("age", QStr("71")), #("name", QStr("Joe"))])),
+      QMap(dict.from_list([#("age", QStr("71")), #("name", QStr("Joe"))])),
     ),
     #("user_ids", QList([QStr("1"), QStr("2")])),
     #("foo", QStr("bar")),
@@ -66,19 +66,22 @@ pub fn encode_nested_nonsense_test() {
     #(
       "products",
       QList([
-        QMap(map.from_list([#("name", QStr("Toaster")), #("price", QStr("15"))])),
-        QMap(map.from_list([
-          #("name", QStr("Microwave")),
-          #("price", QStr("50")),
-        ])),
+        QMap(
+          dict.from_list([#("name", QStr("Toaster")), #("price", QStr("15"))]),
+        ),
+        QMap(
+          dict.from_list([#("name", QStr("Microwave")), #("price", QStr("50"))]),
+        ),
       ]),
     ),
     #(
       "people",
-      QMap(map.from_list([
-        #("count", QStr("3")),
-        #("names", QList([QStr("Joe"), QStr("Robert"), QStr("Mike")])),
-      ])),
+      QMap(
+        dict.from_list([
+          #("count", QStr("3")),
+          #("names", QList([QStr("Joe"), QStr("Robert"), QStr("Mike")])),
+        ]),
+      ),
     ),
   ]
 

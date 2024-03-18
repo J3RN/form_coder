@@ -34,8 +34,8 @@ Rails and Plug. Namely:
 
 Well, in the type specification, the argument must take the form
 `List(#(String, _))`, where I can choose what to replace `_` with. Choosing
-any one of `String`, `List`, or `Map` would make using the other two very
-inconvenient. Using some type variable `a` is would enforce that all "values"
+any one of `String`, `List`, or `Dict` would make using the other two very
+inconvenient. Using some type variable `a` would enforce that all "values"
 have the same type (i.e. you can't have some values as strings and others as
 lists) and `form_coder` would have to know how to encode your arbitrary `a` and
 that doesn't seem possible.
