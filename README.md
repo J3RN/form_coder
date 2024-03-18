@@ -21,12 +21,12 @@ Rails and Plug. Namely:
 ```
 
 ```gleam
-> form_coder.encode(#("user_ids", QList([QStr("1"), QStr("2")])))
+> form_coder.encode([#("user_ids", QList([QStr("1"), QStr("2")]))])
 "user_ids[]=1&user_ids[]=2"
 ```
 
 ```gleam
-> form_coder.encode(#("person", QMap(map.from_list([#("name", QStr("Joe")), #("age", QStr("71"))]))))
+> form_coder.encode([#("person", QMap(dict.from_list([#("name", QStr("Joe")), #("age", QStr("71"))])))])
 "person[age]=71&person[name]=Joe"
 ```
 
