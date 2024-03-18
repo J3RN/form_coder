@@ -15,14 +15,14 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: "25.x"
-          gleam-version: "0.26"
+          gleam-version: "1.0"
       - run: gleam format --check src test
   test-erlang:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: ['24.x', '25.x']
-        gleam: ['0.24.0', '0.25.3', '0.26.2']
+        otp: ['24.x', '25.x', '26.x']
+        gleam: ['1.0']
     steps:
       - uses: actions/checkout@v3
       - uses: erlef/setup-beam@v1
@@ -39,8 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['lts/gallium', 'lts/hydrogen']
-        gleam: ['0.25.3', '0.26.2']
+        node: ['lts/hydrogen', 'lts/iron']
+        gleam: ['1.0']
     steps:
       - uses: actions/checkout@v3
       - uses: erlef/setup-beam@v1
