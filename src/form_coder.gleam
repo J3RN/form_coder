@@ -4,13 +4,13 @@
 //// https://url.spec.whatwg.org/#application/x-www-form-urlencoded but uses
 //// UTF-8 as the only supported encoding.
 
+import gleam/dict.{type Dict}
 import gleam/dynamic
 import gleam/list
-import gleam/dict.{type Dict}
-import gleam/uri
 import gleam/result
 import gleam/string
-import gleam/string_builder
+import gleam/string_tree as string_builder
+import gleam/uri
 
 pub type Query {
   QStr(String)
@@ -69,7 +69,7 @@ fn encode_string(key, str) {
   [
     encode_term(key)
     |> string_builder.append("=")
-    |> string_builder.append_builder(encode_term(str)),
+    |> string_builder.append_tree(encode_term(str)),
   ]
 }
 
@@ -86,7 +86,7 @@ fn encode_map(key, pairs) {
   })
 }
 
-fn encode_term(term: string_builder.StringBuilder) {
+fn encode_term(term: string_builder.StringTree) {
   term
   |> string_builder.split(" ")
   |> list.map(encode_part)
